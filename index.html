@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        function getComputerChoice()
+        {
+            let computerChoice = Math.floor(Math.random() * 3);
+            switch(computerChoice)
+            {
+                case 0 : computerChoice = "rock";break;
+                case 1 : computerChoice = "paper";break;
+                case 2 : computerChoice = "scissors";break;
+            }
+            console.log("Computer choose " + computerChoice + "\n");
+            return computerChoice;
+        } 
+        
+        function getPlayerSelection()
+        {
+            let playerChoice = prompt("Make your choice : Rock ; Paper ; Scissors ? ");
+            playerChoice = playerChoice.toLowerCase();
+            return playerChoice;
+        }
+
+        function round(playerSelection, computerChoice)
+        {
+            let message;
+
+            if((playerSelection === "paper" && computerChoice === "rock") || (playerSelection === "scissors" && computerChoice == "paper") || (playerSelection === "rock" && computerChoice === "scissors") )
+            {
+                message = "You win ! " + playerSelection + " beats " + computerChoice;
+            }
+            else if(playerSelection === computerChoice)
+            {
+                message = "Equality";
+            }
+            else
+            {
+                message = "You loose ! " + computerChoice + " beats" + playerSelection;
+            }
+            return message;
+        }
+        
+        function game()
+        {
+            let playerScore = 0;
+            let computerScore = 0;
+
+            while(playerScore < 5 && computerScore < 5 )
+            {
+                let playerChoice = getPlayerSelection();
+                let computerChoice = getComputerChoice();
+                let resultat = round(playerChoice, computerChoice);
+                console.log(resultat);
+                if(resultat.indexOf("win") !== -1 && playerChoice !== computerChoice)
+                {
+                    playerScore++;
+                }
+                else if (resultat.indexOf("win") === -1 && playerChoice !== computerChoice)
+                {
+                    computerScore++;
+                }
+                console.log("Player score : " + playerScore + "      Computer score : " + computerScore);
+            }
+        }
+
+        game();
+
+    </script>
+    
+</body>
+</html>
