@@ -1,68 +1,115 @@
-
-function GetComputerChoice()
+function GetComputerSelection()
 {
-    let computerChoice = Math.floor(Math.random() * 3);
-    switch(computerChoice)
+    let computerChoice ;
+    let random = Math.floor(Math.random() * 3);
+    switch(random)
     {
         case 0 : computerChoice = "rock";break;
         case 1 : computerChoice = "paper";break;
         case 2 : computerChoice = "scissors";break;
     }
     return computerChoice;
-} 
+}
 
-function GetPLayerChoice(PlayRound)
+function GetPlayerSelection(Play)
 {
-    let playerChoice = document.querySelectorAll('button');
-    playerChoice.forEach(btn => {
-        btn.addEventListener('click', () => {
-            playerChoice = btn.id;
-            PlayRound(playerChoice);
+    let playerButtons = document.querySelectorAll('button');
+    playerButtons.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            event.stopImmediatePropagation();
+            let playerChoice = event.target.id;
+            Play(playerChoice);
         });
     });
 }
 
-function Round(playerChoice, computerChoice)
+function MakeRound(playerSelection, computerSelection)
 {
-    let result;
+    let result
 
-    if((playerChoice === 'rock' && computerChoice === 'scissors') || (playerChoice === 'scissors' && computerChoice === 'paper') || (playerChoice === 'paper' && computerChoice === 'rock'))
-        result = 1;
-    else if ((playerChoice === 'scissors' && computerChoice === 'rock') || (playerChoice === 'paper' && computerChoice === 'scissors') || (playerChoice === 'rock' && computerChoice === 'paper'))
-        result = -1;    
-    else if(playerChoice === computerChoice)
+    // Return 1 if the player win the round, -1 if he loose and 0 if equality
+    if((playerSelection === "rock" && computerSelection === "scissors") || (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper"))
+        result = 1; 
+    else if((computerSelection === "rock" && playerSelection === "scissors") || (computerSelection === "paper" && playerSelection === "rock") || (computerSelection === "scissors" && playerSelection === "paper"))
+        result = -1; 
+    else if(playerSelection === computerSelection)
         result = 0;
-
     return result;
 }
 
 function GameLoop()
 {
-    let computerScore = 0, playerScore = 0;
+    let pScore = 0, cScore = 0;
+    let newGame = true;
+    let playArea = document.querySelector('#playArea');
+    let message = document.createElement('p');
+    let score = document.createElement('div');
+    let playerScore = document.createElement('p');
+    let computerScore = document.createElement('p');
+    let winner = document.createElement('p');
 
-    function PlayRound(playerChoice)
+    playArea.appendChild(score);
+    score.appendChild(playerScore);
+    score.appendChild(computerScore);
+    
+
+    playerScore.textContent = "Player : " + pScore ;
+    computerScore.textContent = " Computer : " + cScore;
+
+    function Play(playerChoice)
     {
-        let computerChoice = GetComputerChoice();
-        let resultat = Round(playerChoice, computerChoice);
-
-        switch(resultat)
+        if(newGame === true)
         {
-            case -1 : console.log(playerChoice + " beat " + computerChoice + " . You win this round.");
-            playerScore++;break;
-            case 0 : console.log("Equality, you choose the same.");break;
-            case 1 : console.log(playerChoice + " beat " + computerChoice + " . You win this round.");
-            playerScore++;break;
+            playArea.appendChild(message);
+            let computerChoice = GetComputerSelection();
+            let result = MakeRound(playerChoice, computerChoice);
+    
+            switch(result)
+            {
+                case 1 :    pScore++;
+                            message.textContent = "Well played ! " + playerChoice + " beats " + computerChoice;
+                            break;
+                case 0 :    message.textContent = "Equality ! You choosed the same";
+                            break;
+                case -1 :   cScore++;
+                            message.textContent = "Oh no ! " + computerChoice + " beats " + playerChoice;
+                            break;
+            }
+    
+            playerScore.textContent = "Player : " + pScore ;
+            computerScore.textContent = " Computer : " + cScore;
+    
+            if(pScore < 5 && cScore < 5)
+            {
+                GetPlayerSelection(Play);
+            }
+            else
+            {
+                playArea.appendChild(winner);
+                pScore === 5 ? winner.textContent = "You win !" : winner.textContent = "You loose";
+                
+                if(newGame)
+                {
+                    let playAgain = document.createElement('button');
+                    playAgain.textContent = "Play again";
+                    playArea.appendChild(playAgain);
+                    playAgain.addEventListener('click', () => {
+                        pScore = 0;
+                        cScore = 0;
+                        playerScore.textContent = "Player : " + pScore ;
+                        computerScore.textContent = " Computer : " + cScore;
+                        playArea.removeChild(message);
+                        playArea.removeChild(winner);
+                        playArea.removeChild(playAgain);
+                        newGame = true;
+                    });
+                    newGame = false;
+                }
+            }
         }
-
-        console.log("Player score : " + playerScore + " | Computer score : " + computerScore);
-
-        if(playerScore < 5 && computerScore < 5)
-            GetPLayerChoice(PlayRound);
-        else if(playerScore === 5)
-            console.log("Congratulation ! You win the game !");
-        else if(computerScore === 5) 
-            console.log("You loose the game");
+        
     }
+    GetPlayerSelection(Play);
 }
 
 GameLoop();
