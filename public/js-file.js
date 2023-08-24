@@ -70,7 +70,6 @@ function GameLoop()
             let computerChoice = GetComputerSelection();
             let result = MakeRound(playerChoice, computerChoice);
             
-    
             switch(result)
             {
                 case 1 :    pScore++;
@@ -126,7 +125,7 @@ function GameLoop()
                         playArea.removeChild(message);
                         playArea.removeChild(winner);
                         playArea.removeChild(playAgain);
-                        winner.classList.remove('text-green-500', 'test-red-500');
+                        winner.classList.remove('text-green-500', 'text-red-500');
                         newGame = true;
                     });
                     newGame = false;
