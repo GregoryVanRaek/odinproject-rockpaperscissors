@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./js-file.js" defer></script>
+    <link rel="stylesheet" href="/public/output.css">
+    <script src="./public/js-file.js" defer></script>
 </head>
-<body>
 
-    <div id="playArea">
-        <div id="playButtons">
-            <button id="rock">ROCK</button>
-            <button id="paper">PAPER</button>
-            <button id="scissors">SCISSORS</button>
+<body class="bg-slate-500 text-amber-400 text-4xl">
+
+    <main>
+        <div class="bg-slate-600" >
+            <h1 class="text-center text-5xl py-8">Rock Paper Scissors</h1>
         </div>
-    </div>
 
+        <div class="text-center" id="playArea">
+            <h2 class="mt-16">Choose your weapon</h2>
+            <p class="pt-2 mb-16 text-xl">First to score 5 wins the game </p>
+            <div class="flex gap-16 justify-center items-center pb-10 flex-wrap" id="playButtons">
+                <button class="border-2 border-amber-400 rounded text-center pt-4 px-16 pb-2" id="rock">ROCK</button>
+                <button class="border-2 border-amber-400 rounded text-center pt-4 px-14 pb-2"  id="paper">PAPER</button>
+                <button class="border-2 border-amber-400 rounded text-center pt-4 px-6 pb-2"  id="scissors">SCISSORS</button>
+            </div>
+        </div>
+    </main>
 
+    <footer class="pt-8">
+        <a href="https://github.com/GregoryVanRaek" target="_blank" class="text-lg flex flex-wrap justify-center md:absolute md:bottom-0 md:w-full">Copyright © 2023 GregoryVanRaek</a>
+    </footer>
 </body>
+
 </html>
